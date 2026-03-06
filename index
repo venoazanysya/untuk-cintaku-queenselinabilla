@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Kamu ❤️</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+overflow:hidden;
+background:linear-gradient(135deg,#ff9a9e,#fecfef);
+color:white;
+}
+
+/* HEART BACKGROUND */
+
+.hearts{
+position:fixed;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:0;
+}
+
+.hearts span{
+position:absolute;
+bottom:-50px;
+font-size:22px;
+animation:love 8s linear infinite;
+}
+
+@keyframes love{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-120vh);opacity:0;}
+}
+
+/* SLIDE */
+
+.container{
+display:flex;
+width:800%;
+height:100vh;
+transition:0.7s;
+z-index:2;
+position:relative;
+}
+
+.slide{
+width:100vw;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:60px;
+box-sizing:border-box;
+}
+
+h1{
+font-size:44px;
+margin-bottom:20px;
+}
+
+p{
+font-size:22px;
+max-width:500px;
+}
+
+/* FOTO */
+
+.foto{
+width:260px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* BUTTON */
+
+.btn{
+position:fixed;
+bottom:30px;
+padding:12px 24px;
+border:none;
+background:#ff4d6d;
+color:white;
+font-size:18px;
+border-radius:30px;
+cursor:pointer;
+z-index:5;
+}
+
+.next{right:20px;}
+.prev{left:20px;}
+
+/* BIG LOVE */
+
+.biglove{
+font-size:100px;
+animation:beat 1s infinite;
+}
+
+@keyframes beat{
+0%{transform:scale(1);}
+50%{transform:scale(1.3);}
+100%{transform:scale(1);}
+}
+
+/* SECRET BUTTON */
+
+.secretBtn{
+padding:15px 30px;
+font-size:20px;
+border:none;
+border-radius:30px;
+background:white;
+color:#ff4d6d;
+cursor:pointer;
+}
+
+/* CONFETTI */
+
+.confetti{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8e3c0a7e2.mp3?filename=romantic-background-112191.mp3">
+</audio>
+
+<div class="hearts">
+<span style="left:10%">❤️</span>
+<span style="left:20%">💖</span>
+<span style="left:30%">❤️</span>
+<span style="left:40%">💗</span>
+<span style="left:50%">❤️</span>
+<span style="left:60%">💖</span>
+<span style="left:70%">❤️</span>
+<span style="left:80%">💗</span>
+<span style="left:90%">❤️</span>
+</div>
+
+<div class="container" id="slides">
+
+<div class="slide">
+<h1>Hai Sayang ❤️</h1>
+<p id="typing"></p>
+</div>
+
+<div class="slide">
+<h1>Aku Tau Kamu Lagi Sakit</h1>
+<p>Semoga kamu cepat sembuh ya. Aku harap kamu bisa istirahat yang cukup.</p>
+</div>
+
+<div class="slide">
+<h1>Kalau Aku Bisa...</h1>
+<p>Aku pengen banget ada di samping kamu buat nemenin kamu sekarang.</p>
+</div>
+
+<div class="slide">
+<h1>Ini Kamu ❤️</h1>
+
+<img class="foto" src="cintaku.jpeg">
+
+</div>
+
+<div class="slide">
+<h1>Sejak Kita Kenal</h1>
+<p id="counter"></p>
+</div>
+
+<div class="slide">
+<h1>Klik Ini</h1>
+
+<button class="secretBtn" onclick="next()">
+Buka Pesan Rahasia ❤️
+</button>
+
+</div>
+
+<div class="slide">
+<h1 class="biglove">Aku Sayang Kamu ❤️</h1>
+<p>Cepat sembuh ya sayang.</p>
+</div>
+
+</div>
+
+<button class="btn prev" onclick="prev()">◀</button>
+<button class="btn next" onclick="next()">▶</button>
+
+<canvas class="confetti" id="confetti"></canvas>
+
+<script>
+
+/* SLIDE */
+
+let index=0
+let slides=document.getElementById("slides")
+
+function update(){
+slides.style.transform="translateX(-"+(index*100)+"vw)"
+}
+
+function next(){
+if(index<6){
+index++
+update()
+}
+}
+
+function prev(){
+if(index>0){
+index--
+update()
+}
+
+/* CONFETTI */
+
+if(index==6){
+startConfetti()
+}
+
+}
+
+/* SWIPE */
+
+let startX=0
+
+document.addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX
+})
+
+document.addEventListener("touchend",e=>{
+let endX=e.changedTouches[0].clientX
+
+if(startX-endX>50){next()}
+if(endX-startX>50){prev()}
+})
+
+/* TYPING */
+
+let text="Aku cuma mau bikin sesuatu kecil buat kamu. Walaupun sederhana, tapi ini dari aku buat kamu."
+let i=0
+
+function type(){
+if(i<text.length){
+document.getElementById("typing").innerHTML+=text.charAt(i)
+i++
+setTimeout(type,40)
+}
+}
+
+type()
+
+/* COUNTER */
+
+let startDate=new Date("2024-01-01")
+
+function updateCounter(){
+
+let now=new Date()
+
+let diff=now-startDate
+
+let days=Math.floor(diff/(1000*60*60*24))
+
+document.getElementById("counter").innerHTML=
+"Kita sudah bersama selama "+days+" hari ❤️"
+
+}
+
+updateCounter()
+
+/* CONFETTI SIMPLE */
+
+function startConfetti(){
+
+let canvas=document.getElementById("confetti")
+let ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let pieces=[]
+
+for(let i=0;i<150;i++){
+pieces.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:5,
+speed:Math.random()*3+2
+})
+}
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+for(let p of pieces){
+
+ctx.fillStyle="white"
+
+ctx.fillRect(p.x,p.y,p.size,p.size)
+
+p.y+=p.speed
+
+if(p.y>canvas.height){
+p.y=0
+}
+
+}
+
+requestAnimationFrame(draw)
+
+}
+
+draw()
+
+}
+
+</script>
+
+</body>
+</html>
